@@ -48,20 +48,20 @@ test("Check For Substring Inside String By RegExp", () => {
 })
 
 test("To Check If Property Found In Object", () => {
-    let myObj={
-        name:"Mustafa",
-        age:24
+    let myObj = {
+        name: "Mustafa",
+        age: 24
     }
 
     expect(myObj).toHaveProperty("name")
 })
 test("To Check If Property Age Value Is 24", () => {
-    let myObj={
-        name:"Mustafa",
-        age:24
+    let myObj = {
+        name: "Mustafa",
+        age: 24
     }
 
-    expect(myObj).toHaveProperty("age",24)
+    expect(myObj).toHaveProperty("age", 24)
 })
 /**
  *  1-  .toHaveLength() => length of array or string
@@ -77,3 +77,56 @@ test("To Check If Property Age Value Is 24", () => {
  *  11- .toMatch() => to Apply Regular expression inside bracket 
  *  12- .toHaveProperty() => to check if property found in object (key) or to check it's value(key,val)
  */
+
+
+expect.extend({
+    customMatchName(recived, target) {
+        // We Hava Two Built In Property In Custom Matcher
+        // 1- Pass: We Make Our Functionality On It
+        // 2- Message: Send Your Written Message For Test Block You Work On It
+    }
+})
+
+
+// Create Custom toBeLargerThan Match Like To toBeGreaterThan Match
+expect.extend({
+    toBeLargerThan(received, target) {
+        const condition = received > target
+        if (condition) {
+            return {
+                pass: true,
+                message: () => `Expected ${received} To Be Larger Than ${target}`
+            }
+        } else {
+            return {
+                pass: false,
+                message: () => `Error: Expected ${received} To Be Larger Than ${target}`
+            }
+        }
+    }
+})
+
+test("Check If Number Is Larger Than Other Number", () => {
+    expect(10).toBeLargerThan(9)
+})
+//Range Custom Matcher
+expect.extend({
+    toBeInRange(received, startTarget, endTarget) {
+        const condition = startTarget < received && received < endTarget
+        if (condition) {
+            return {
+                pass: true,
+                message: () => `Number ${received} Is In Range Between {${startTarget},${endTarget}} `
+            }
+        } else {
+            return {
+                pass: false,
+                message: () => `Error: Number ${received} Is In Range Between {${startTarget},${endTarget}} `
+            }
+        }
+    }
+})
+
+test("Check If Number Is In Range Between 2 Numbers", () => {
+    expect(6).toBeInRange(4, 7)
+})
